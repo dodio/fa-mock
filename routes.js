@@ -9,39 +9,38 @@ module.exports = function (router) {
         filePath = nodePath.join(__dirname, 'data', path),
         ext = nodePath.extname(path)
 
-      try{
-        if(ext != ""){
-          return res.sendFile(filePath)
+    if(ext != ""){
+      return res.sendFile(filePath, function(err){
+        if(err){
+          next()
         }
+      })
+    }
+    filePath = filePath.replace(/\/$/, "")
 
-        filePath = filePath.replace(/\/$/, "")
+    var method = req.method.toLowerCase(),
+        dirPath = filePath + "/index",
+        jsFile = paserPrefer(filePath, method, '.js'),
+        jsonFile = paserPrefer(filePath, method, '.json'),
+        jsDir = paserPrefer(dirPath, method, '.js'),
+        jsonDir = paserPrefer(dirPath, method, '.json' )
 
-        var method = req.method.toLowerCase(),
-            dirPath = filePath + "/index",
-            jsFile = paserPrefer(filePath, method, '.js'),
-            jsonFile = paserPrefer(filePath, method, '.json'),
-            jsDir = paserPrefer(dirPath, method, '.js'),
-            jsonDir = paserPrefer(dirPath, method, '.json' )
+    if(jsFile){
+      return require(jsFile)(req, res, next)
 
-        if(jsFile){
-          require(jsFile)(req, res, next)
-          return
-        }
-        if(jsonFile){
-          return res.sendFile(jsonFile)
-        }
-        if(jsDir){
-          require(jsDir)(req, res, next)
-          return 
-        }
-        if(jsonDir){
-          return res.sendFile(jsonDir)
-        }
-        
-      }catch(e){
+    }
+    if(jsonFile){
+      return res.sendFile(jsonFile)
+    }
+    if(jsDir){
+      return require(jsDir)(req, res, next)
+       
+    }
+    if(jsonDir){
+      return res.sendFile(jsonDir)
 
-      }
-      next()
+    }
+      
   })
 }
 
