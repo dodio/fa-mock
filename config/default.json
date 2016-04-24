@@ -1,0 +1,112 @@
+{   
+    // 服务器本身配置
+    "fa": {
+        "port": 81, //运行端口
+        "view": {
+            //模板后缀名
+            "ext": "tpl"
+        }
+    },
+    // 模板引擎配置
+    "swig": {
+        "cache": false,
+        "autoescape": true,
+        "varControls": ["{{", "}}"],
+        "tagControls": ["{%", "%}"],
+        "cmtControls": ["{#", "#}"]
+    },
+
+    //中间件顺序配置
+    "middleware": {
+        "favicon": {
+            "level": 0,
+            "path": "./public/favicon.icon",
+            "disable": true
+        },
+
+        "compression": {
+            "level": 10
+            
+            //会出一个invalid compression level:10 的错误，先停掉
+            ,"disable": true
+        },
+
+        "responseTime": {
+            "level": 20 
+        },
+
+        "bodyParser": {
+            "level": 30,
+            "urlencoded": {
+                "extended": false
+            }
+        },
+
+        "cookieParser": {
+            "level": 40,
+            "options": {
+                "secret": "zmskUKsl*^%"
+            }
+        },
+
+        "session": {
+            "level": 50,
+            
+            //如果使用redis来储存session，将false配置为具体的链接配置
+            "redis": false,
+            "cookie": {
+                "secure": false
+            },
+            "path": "./tmp/session",
+
+            "secret": "FA_SESSION",
+            "name": "FA_SID",
+            
+            // 是否每次请求都将session重新保存，即使没有改变过
+            "resave": false,
+            
+            // 未初始化的session 是否也进行储存，不储存可以让用户在不需要使用session的情况，节约服务器资源
+            "saveUninitialized": false,
+            "disable": true
+        },
+
+        "methodOverride" : {
+            "level": 55,
+            "disable": true,
+            "methods":[
+                "X-HTTP-Method",
+                "X-HTTP-Method-Override",
+                "X-Method-Override",
+                "_method"
+            ],
+            "disable": true
+        },
+        //此中间件提供一个data对象用于操作res上的各种数据
+        "data": {
+            "level": 60,
+            "disable": true
+        },
+        //路由中间件
+        "horse": {
+            "level": 70
+        },
+        //静态资源目录
+        "static": {
+            "level": 80,
+            "urlPattern": "/public",
+            "publicDir": "./public",
+            "options": {
+                "maxAge": 0
+            }
+        }
+    },
+    
+
+    //settings of bee, please rewrite this config
+    //this seeting is just for to prevent an error from bee.
+    "bee":{
+        "servers":[{
+            "baseUrl":""
+        }]
+    }
+}

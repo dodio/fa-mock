@@ -1,0 +1,27 @@
+{
+  "name": "fa-mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dodio/fa-mock.git"
+  },
+  "keywords": [
+    "mock",
+    "fa"
+  ],
+  "dependencies": {
+    "bluebird": "^3.3.5",
+    "fa": "git+https://github.com/dodio/fa.git"
+  },
+  "author": "dodio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dodio/fa-mock/issues"
+  },
+  "homepage": "https://github.com/dodio/fa-mock#readme"
+}
